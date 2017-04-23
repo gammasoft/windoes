@@ -1,0 +1,27 @@
+{
+  "name": "windoes",
+  "version": "1.0.0",
+  "description": "Basic time window conculations",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/nodeunit/index.js tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gammasoft/windoes.git"
+  },
+  "keywords": [
+    "time",
+    "window",
+    "calculation"
+  ],
+  "author": "Renato Gama <renato@gammasoft.com.br>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/gammasoft/windoes/issues"
+  },
+  "homepage": "https://github.com/gammasoft/windoes",
+  "devDependencies": {
+    "nodeunit": "^0.11.0"
+  }
+}
