@@ -9,7 +9,7 @@ function padZero (number) {
 }
 
 function timefy (minutes) {
-  const seconds = minutes * 60
+  const seconds = parseFloat(minutes) * 60
 
   return [
     Math.floor(seconds / 3600),
@@ -18,8 +18,21 @@ function timefy (minutes) {
 }
 
 function minutefy (time) {
-  time = time.split(':').map(parseFloat)
-  return (time[0] * 60) + time[1]
+  if (time instanceof Date) {
+    time = `${time.getHours()}:${time.getMinutes()}`
+  }
+
+  return time.toString()
+              .trim()
+              .split(':')
+              .slice(0, 2)
+              .reverse()
+              .map((value, index) => {
+                return parseFloat(value) * Math.pow(60, index)
+              })
+              .reduce((acc, value) => {
+                return acc + value
+              }, 0)
 }
 
 function sumToBase (value, array, base, options) {
@@ -31,10 +44,6 @@ function sumToBase (value, array, base, options) {
     endMinute = Math.max(startMinute, endMinute)
 
     for (var index = startMinute; index <= endMinute; index++) {
-      if (isNaN(base[index])) {
-        base[index] = 0
-      }
-
       base[index] += value
     }
   })
@@ -78,8 +87,6 @@ function parseToTime (base, options) {
     let start = interval[startProperty]
     let end = interval[endProperty]
     const value = base[index] || 0
-
-    // console.log(value, start, end, interval.duration)
 
     if (value > 0) {
       interval.duration++
@@ -128,8 +135,8 @@ function windoes (options = {}) {
     duration
   } = options
 
-  const base = new Array(MINUTES_PER_DAY)
-  sumToBase(1, positives, base, options)
+  const base = new Array(MINUTES_PER_DAY).fill(0)
+  sumToBase( 1, positives, base, options)
   sumToBase(-1, negatives, base, options)
 
   return parseToTime(base, options)
